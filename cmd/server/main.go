@@ -12,6 +12,8 @@ func main() {
 func startServer() {
 	webserver := web.NewWebServer(":8000")
 	weatherHandler := api.NewWeatherHandler()
-	webserver.AddHandler("/health", weatherHandler.HealthCheck)
+	healthHandler := api.NewHealthCheck()
+	webserver.AddHandler("/", weatherHandler.GetWeather)
+	webserver.AddHandler("/health", healthHandler.HealthCheck)
 	webserver.Start()
 }
