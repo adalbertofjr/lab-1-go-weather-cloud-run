@@ -3,7 +3,7 @@ package usecase
 import (
 	"github.com/adalbertofjr/lab-1-go-weather-cloud-run/internal/domain"
 	"github.com/adalbertofjr/lab-1-go-weather-cloud-run/internal/dto"
-	"github.com/adalbertofjr/lab-1-go-weather-cloud-run/internal/net"
+	"github.com/adalbertofjr/lab-1-go-weather-cloud-run/internal/infra/net"
 	"github.com/adalbertofjr/lab-1-go-weather-cloud-run/pkg/utility"
 )
 
