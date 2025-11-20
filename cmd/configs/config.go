@@ -4,6 +4,7 @@ import "github.com/spf13/viper"
 
 type Conf struct {
 	WeatherAPIKey string `mapstructure:"WEATHERAPI_KEY"`
+	WebServerPort string `mapstructure:"WEB_SERVER_PORT"`
 }
 
 func LoadConfig(path string) (*Conf, error) {

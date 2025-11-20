@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/adalbertofjr/lab-1-go-weather-cloud-run/api"
 	"github.com/adalbertofjr/lab-1-go-weather-cloud-run/cmd/configs"
-	"github.com/adalbertofjr/lab-1-go-weather-cloud-run/infra/web"
+	"github.com/adalbertofjr/lab-1-go-weather-cloud-run/internal/infra/web"
 )
 
 func main() {
@@ -11,12 +11,11 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	_ = configs
 	startServer(configs)
 }
 
 func startServer(configs *configs.Conf) {
-	webserver := web.NewWebServer(":8000")
+	webserver := web.NewWebServer(configs.WebServerPort)
 	weatherHandler := api.NewWeatherHandler(configs.WeatherAPIKey)
 	healthHandler := api.NewHealthCheck()
 	webserver.AddHandler("/", weatherHandler.GetWeather)
