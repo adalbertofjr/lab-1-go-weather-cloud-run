@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/adalbertofjr/lab-1-go-weather-cloud-run/api"
 	"github.com/adalbertofjr/lab-1-go-weather-cloud-run/cmd/configs"
+	"github.com/adalbertofjr/lab-1-go-weather-cloud-run/internal/infra/api"
 	"github.com/adalbertofjr/lab-1-go-weather-cloud-run/internal/infra/web"
 )
 
