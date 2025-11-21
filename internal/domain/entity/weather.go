@@ -1,13 +1,13 @@
-package domain
+package entity
 
 type Weather struct {
-	Location string  `json:"localidade"`
-	Temp_c   float64 `json:"temp_c"`
-	Temp_f   float64 `json:"temp_f"`
-	Temp_k   float64 `json:"temp_k"`
+	Location string
+	Temp_c   float64
+	Temp_f   float64
+	Temp_k   float64
 }
 
-func NewWeather(location string, tempC float64) Weather {
+func NewWeather(location string, tempC float64) *Weather {
 	weather := Weather{
 		Location: location,
 		Temp_c:   tempC,
@@ -15,7 +15,7 @@ func NewWeather(location string, tempC float64) Weather {
 	weather.calcFahrenheit()
 	weather.calcKelvin()
 
-	return weather
+	return &weather
 }
 
 func (w *Weather) calcFahrenheit() (*Weather, error) {
@@ -24,6 +24,6 @@ func (w *Weather) calcFahrenheit() (*Weather, error) {
 }
 
 func (w *Weather) calcKelvin() (*Weather, error) {
-	w.Temp_k = w.Temp_c + 273.
+	w.Temp_k = w.Temp_c + 273
 	return w, nil
 }
