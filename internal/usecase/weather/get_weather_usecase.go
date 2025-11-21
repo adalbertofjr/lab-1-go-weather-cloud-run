@@ -1,8 +1,8 @@
 package usecase
 
 import (
+	"github.com/adalbertofjr/lab-1-go-weather-cloud-run/internal/domain/entity"
 	domainGateway "github.com/adalbertofjr/lab-1-go-weather-cloud-run/internal/domain/gateway"
-	"github.com/adalbertofjr/lab-1-go-weather-cloud-run/internal/infra/api/dto"
 
 	"github.com/adalbertofjr/lab-1-go-weather-cloud-run/pkg/utility"
 )
@@ -15,7 +15,7 @@ func NewWeatherUseCase(gateway domainGateway.WeatherGateway) *WeatherUseCase {
 	return &WeatherUseCase{weatherGateway: gateway}
 }
 
-func (w *WeatherUseCase) GetCurrentWeather(cep string) (*dto.WeatherDTO, error) {
+func (w *WeatherUseCase) GetCurrentWeather(cep string) (*entity.Weather, error) {
 	cepFormated, err := utility.CEPFormatter(cep)
 	if err != nil {
 		return nil, err
@@ -26,11 +26,9 @@ func (w *WeatherUseCase) GetCurrentWeather(cep string) (*dto.WeatherDTO, error) 
 		return nil, err
 	}
 
-	weatherDTO := dto.NewWeatherDTO(
+	currentWeather := entity.NewWeather(
 		weatherData.Location,
-		weatherData.Temp_c,
-		weatherData.Temp_f,
-		weatherData.Temp_k)
+		weatherData.Temp_c)
 
-	return weatherDTO, nil
+	return currentWeather, nil
 }

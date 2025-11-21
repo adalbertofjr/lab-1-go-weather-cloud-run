@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/adalbertofjr/lab-1-go-weather-cloud-run/internal/infra/api/dto"
 	usecase "github.com/adalbertofjr/lab-1-go-weather-cloud-run/internal/usecase/weather"
 )
 
@@ -24,7 +25,14 @@ func (h *WeatherHandler) GetWeather(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	weatherCurrentJSON, err := json.Marshal(weatherCurrent)
+	weatherDTO := dto.NewWeatherDTO(
+		weatherCurrent.Location,
+		weatherCurrent.Temp_c,
+		weatherCurrent.Temp_f,
+		weatherCurrent.Temp_k,
+	)
+
+	weatherCurrentJSON, err := json.Marshal(weatherDTO)
 	if err != nil {
 		http.Error(w, "Error marshalling location data", http.StatusInternalServerError)
 		return
