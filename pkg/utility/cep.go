@@ -8,7 +8,7 @@ import (
 func CEPValidator(cep string) (string, error) {
 	cepRegex := regexp.MustCompile(`^\d{5}-?\d{3}$`)
 	if !cepRegex.MatchString(cep) {
-		return "", fmt.Errorf("invalid CEP format")
+		return "", fmt.Errorf("invalid zipcode")
 	}
 
 	return cep, nil

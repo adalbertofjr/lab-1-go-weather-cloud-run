@@ -21,7 +21,7 @@ func (h *WeatherHandler) GetWeather(w http.ResponseWriter, r *http.Request) {
 
 	weatherCurrent, err := h.usecase.GetCurrentWeather(cep)
 	if err != nil {
-		http.Error(w, "Error fetching location", http.StatusInternalServerError)
+		http.Error(w, err.MSG, err.Code)
 		return
 	}
 
@@ -32,8 +32,8 @@ func (h *WeatherHandler) GetWeather(w http.ResponseWriter, r *http.Request) {
 		weatherCurrent.Temp_k,
 	)
 
-	weatherCurrentJSON, err := json.Marshal(weatherDTO)
-	if err != nil {
+	weatherCurrentJSON, jsonErr := json.Marshal(weatherDTO)
+	if jsonErr != nil {
 		http.Error(w, "Error marshalling location data", http.StatusInternalServerError)
 		return
 	}

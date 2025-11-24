@@ -14,6 +14,6 @@ Host: localhost:8000
 Get /?cep=0000000 HTTP/1.1
 Host: localhost:8000
 
-### Test cep invalid format
-Get /?cep=0000000 HTTP/1.1
+### Test cep not found
+Get /?cep=12345678 HTTP/1.1
 Host: localhost:8000
