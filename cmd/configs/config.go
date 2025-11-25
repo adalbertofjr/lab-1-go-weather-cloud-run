@@ -14,11 +14,11 @@ func LoadConfig(path string) (*Conf, error) {
 	viper.AddConfigPath(path)
 	viper.SetConfigFile(".env")
 	viper.AutomaticEnv()
-	err := viper.ReadInConfig()
-	if err != nil {
-		panic(err)
-	}
-	err = viper.Unmarshal(&cfg)
+
+	// Tenta ler .env, mas ignora se não existir
+	_ = viper.ReadInConfig()
+
+	err := viper.Unmarshal(&cfg)
 	if err != nil {
 		panic(err)
 	}

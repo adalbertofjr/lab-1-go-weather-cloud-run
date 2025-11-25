@@ -34,6 +34,13 @@ func (s *WebServer) Start() {
 	for path, handler := range s.Handlers {
 		s.Router.Handle(path, handler)
 	}
-	fmt.Println("Starting web server on port: http://localhost" + s.WebServerPort)
-	http.ListenAndServe(s.WebServerPort, s.Router)
+	addr := s.WebServerPort
+	if addr == "" {
+		addr = ":8080"
+	}
+	fmt.Println("Starting web server on port:", addr)
+	err := http.ListenAndServe(addr, s.Router)
+	if err != nil {
+		panic(err)
+	}
 }

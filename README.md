@@ -8,17 +8,47 @@ API REST em Go para consulta de temperatura por CEP, integrando ViaCEP e Weather
 
 ## 📋 Índice
 
-- [Tecnologias](#-tecnologias)
-- [Arquitetura](#-arquitetura)
-- [Pré-requisitos](#-pré-requisitos)
-- [Configuração](#-configuração)
-- [Executando o Projeto](#-executando-o-projeto)
-- [Executando os Testes](#-executando-os-testes)
-- [API Endpoints](#-api-endpoints)
-- [Estrutura do Projeto](#-estrutura-do-projeto)
-- [CI/CD](#-cicd)
+1. [Quick Start](#1-quick-start)
+2. [Tecnologias](#2-tecnologias)
+3. [Arquitetura](#3-arquitetura)
+4. [Pré-requisitos](#4-pré-requisitos)
+5. [Configuração](#5-configuração)
+6. [Executando o Projeto](#6-executando-o-projeto)
+7. [Executando os Testes](#7-executando-os-testes)
+8. [API Endpoints](#8-api-endpoints)
+9. [Estrutura do Projeto](#9-estrutura-do-projeto)
+10. [CI/CD](#10-cicd)
+11. [Docker](#11-docker)
+12. [Desenvolvimento](#12-desenvolvimento)
 
-## 🚀 Tecnologias
+## 1. ⚡ Quick Start
+
+```bash
+# 1. Clonar repositório
+git clone https://github.com/adalbertofjr/lab-1-go-weather-cloud-run.git
+cd lab-1-go-weather-cloud-run
+
+# 2. Configurar variáveis de ambiente
+cd cmd/server
+cp .env.example .env
+# Edite .env e adicione sua WEATHERAPI_KEY
+
+# 3. Executar aplicação
+go run main.go
+# Acesse: http://localhost:8000
+
+# 4. Testar (em outro terminal)
+curl "http://localhost:8000/?cep=01001000"
+
+# 5. Executar testes localmente
+go test -v ./...
+
+# 6. Executar testes via Docker
+make test-docker
+# ou: docker compose -f docker-compose.test.yml run --rm test
+```
+
+## 2. 🚀 Tecnologias
 
 - **Go 1.23** - Linguagem de programação
 - **Chi Router** - HTTP router leve e rápido
@@ -32,7 +62,7 @@ API REST em Go para consulta de temperatura por CEP, integrando ViaCEP e Weather
 - [ViaCEP](https://viacep.com.br/) - Consulta de CEP
 - [WeatherAPI](https://www.weatherapi.com/) - Dados meteorológicos
 
-## 🏗️ Arquitetura
+## 3. 🏗️ Arquitetura
 
 Projeto estruturado seguindo **Clean Architecture**:
 
@@ -60,15 +90,13 @@ Projeto estruturado seguindo **Clean Architecture**:
 - **Infrastructure** - Handlers HTTP, Gateways, Web Server
 - **Main** - Configuração e inicialização
 
-## ✅ Pré-requisitos
+## 4. ✅ Pré-requisitos
 
 - [Go 1.23+](https://go.dev/dl/)
 - [Docker](https://www.docker.com/get-started) (opcional, para testes)
 - Chave API do [WeatherAPI](https://www.weatherapi.com/signup.aspx) (gratuita)
 
-## ⚙️ Configuração
-
-### 1. Clone o repositório
+## 5. ⚙️ Configuração
 
 ```bash
 git clone https://github.com/adalbertofjr/lab-1-go-weather-cloud-run.git
@@ -98,7 +126,7 @@ WEB_SERVER_PORT=:8000
 go mod download
 ```
 
-## 🎯 Executando o Projeto
+## 5. ⚙️ Configuração
 
 ### Opção 1: Execução Local
 
@@ -112,27 +140,34 @@ O servidor estará disponível em: **http://localhost:8000**
 ### Opção 2: Com Docker (recomendado para produção)
 
 ```bash
-# Build da imagem
+# Build da imagem (multi-stage build otimizado)
 docker build -t weather-api .
 
 # Executar container
-docker run -p 8000:8000 \
+docker run --rm -p 8080:8080 \
   -e WEATHERAPI_KEY=sua_chave_aqui \
-  -e WEB_SERVER_PORT=:8000 \
+  -e WEB_SERVER_PORT=:8080 \
   weather-api
 ```
+
+**Características do Dockerfile:**
+- 🏗️ **Multi-stage build** (builder + runtime)
+- 📦 **Imagem final ~15MB** (Alpine + binário estático)
+- 🔒 **CGO_ENABLED=0** - binário 100% estático
+- 🔐 **Certificados SSL** incluídos (ca-certificates)
+- ⚡ **Otimizado para Cloud Run**
 
 ### Testando a API
 
 ```bash
 # Health check
-curl http://localhost:8000/health
+curl http://localhost:8080/health
 
 # Consultar temperatura por CEP
-curl "http://localhost:8000/?cep=01001000"
+curl "http://localhost:8080/?cep=01001000"
 ```
 
-## 🧪 Executando os Testes
+## 6. 🎯 Executando o Projeto
 
 O projeto possui **37 testes** com **90%+ de cobertura** nas camadas críticas.
 
@@ -202,7 +237,7 @@ go test -v ./internal/domain/entity/
 go test -v -run TestGetCurrentWeather_Success ./...
 ```
 
-## 📡 API Endpoints
+## 7. 🧪 Executando os Testes
 
 ### `GET /health`
 Verifica se a API está rodando.
@@ -251,7 +286,7 @@ curl "http://localhost:8000/?cep=01001000"
 }
 ```
 
-## 📁 Estrutura do Projeto
+## 8. 📡 API Endpoints
 
 ```
 .
@@ -284,7 +319,7 @@ curl "http://localhost:8000/?cep=01001000"
 └── go.mod                # Dependências
 ```
 
-## 🔄 CI/CD
+## 9. 📁 Estrutura do Projeto
 
 O projeto usa **GitHub Actions** para executar testes automaticamente em cada push/PR.
 
@@ -309,38 +344,69 @@ jobs:
 
 Ver status dos testes: [Actions](https://github.com/adalbertofjr/lab-1-go-weather-cloud-run/actions)
 
-## 🐳 Docker
+## 10. 🔄 CI/CD
 
 ### Arquivos Docker
 
+- **`Dockerfile`** - Imagem de produção (multi-stage build, ~15MB)
 - **`Dockerfile.test`** - Imagem Alpine otimizada para testes
 - **`docker-compose.test.yml`** - 3 serviços (test, test-coverage, test-watch)
 - **`.dockerignore`** - Otimização de build
 
-### Comandos Úteis
+### Dockerfile de Produção
+
+O `Dockerfile` usa **multi-stage build** para criar imagem extremamente otimizada:
+
+**Stage 1 - Builder:**
+```dockerfile
+FROM golang:1.23-alpine AS builder
+WORKDIR /app
+COPY . .
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o weather-api ./cmd/server
+```
+
+**Stage 2 - Runtime:**
+```dockerfile
+FROM alpine:latest
+RUN apk --no-cache add ca-certificates
+COPY --from=builder /app/weather-api .
+ENTRYPOINT ["/app/weather-api"]
+```
+
+**Resultado:**
+- 📦 Imagem final: **~15MB** (vs ~300MB sem otimização)
+- 🔒 Binário estático (CGO_ENABLED=0)
+- 🔐 Certificados SSL para APIs externas
+- ⚡ Cold start rápido no Cloud Run
+
+### Comandos Docker
 
 ```bash
-# Build imagem de testes
-docker compose -f docker-compose.test.yml build test
+# Produção
+docker build -t weather-api .
+docker run --rm -p 8080:8080 \
+  -e WEATHERAPI_KEY=sua_chave \
+  -e WEB_SERVER_PORT=:8080 \
+  weather-api
 
-# Executar testes
+# Testes
 docker compose -f docker-compose.test.yml run --rm test
 
-# Shell interativo no container
+# Shell interativo
 docker compose -f docker-compose.test.yml run --rm test-watch
 
-# Limpar containers e imagens
+# Limpar
 docker compose -f docker-compose.test.yml down --rmi all
 ```
 
 Documentação completa: [DOCKER_TESTS.md](./DOCKER_TESTS.md)
 
-## 📚 Documentação Adicional
+## 12. 🛠️ Desenvolvimento
 
 - [DOCKER_TESTS.md](./DOCKER_TESTS.md) - Guia completo de testes com Docker
 - [QUICK_START_DOCKER.md](./QUICK_START_DOCKER.md) - Quick start para testes
 
-## 🛠️ Desenvolvimento
+## 11. 🐳 Docker
 
 ### Adicionar novos testes
 
