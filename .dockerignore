@@ -4,7 +4,7 @@
 
 # Docker
 Dockerfile*
-docker-compose*
+# docker-compose*
 .dockerignore
 
 # Arquivos de desenvolvimento
