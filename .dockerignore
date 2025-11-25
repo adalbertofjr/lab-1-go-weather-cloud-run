@@ -1,0 +1,30 @@
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# Arquivos de desenvolvimento
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# Arquivos de teste e cobertura
+coverage/
+*.out
+*.test
+
+# Documentação
+README.md
+docs/
+*.md
+
+# Arquivos temporários
+tmp/
+temp/
+.DS_Store
