@@ -4,15 +4,20 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/adalbertofjr/lab-1-go-weather-cloud-run/internal/domain/entity"
 	"github.com/adalbertofjr/lab-1-go-weather-cloud-run/internal/infra/api/dto"
-	usecase "github.com/adalbertofjr/lab-1-go-weather-cloud-run/internal/usecase/weather"
+	internalerror "github.com/adalbertofjr/lab-1-go-weather-cloud-run/internal/infra/internal_error"
 )
 
-type WeatherHandler struct {
-	usecase *usecase.WeatherUseCase
+type WeatherUseCaseInterface interface {
+	GetCurrentWeather(cep string) (*entity.Weather, *internalerror.InternalError)
 }
 
-func NewWeatherHandler(useCase *usecase.WeatherUseCase) *WeatherHandler {
+type WeatherHandler struct {
+	usecase WeatherUseCaseInterface
+}
+
+func NewWeatherHandler(useCase WeatherUseCaseInterface) *WeatherHandler {
 	return &WeatherHandler{usecase: useCase}
 }
 

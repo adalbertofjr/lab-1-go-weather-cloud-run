@@ -24,17 +24,3 @@ func CEPFormatter(cep string) (string, error) {
 
 	return cepPretty, nil
 }
-
-// func (c *CEP) FetchLocation(cep string) (*CEP, error) {
-// 	cepValid, err := CEPValidator(cep)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-
-// 	cepPretty := CEPFormatter(cepValid)
-
-// 	return &CEP{
-// 		Code:     cepPretty,
-// 		Location: "São Paulo",
-// 	}, nil
-// }
