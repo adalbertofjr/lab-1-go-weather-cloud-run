@@ -129,7 +129,7 @@ docker run -p 8000:8000 \
 curl http://localhost:8000/health
 
 # Consultar temperatura por CEP
-curl "http://localhost:8000/?zipcode=01001000"
+curl "http://localhost:8000/?cep=01001000"
 ```
 
 ## 🧪 Executando os Testes
@@ -214,15 +214,15 @@ Verifica se a API está rodando.
 }
 ```
 
-### `GET /?zipcode={cep}`
+### `GET /?cep={cep}`
 Retorna a temperatura atual para o CEP informado.
 
 **Parâmetros:**
-- `zipcode` (string, obrigatório) - CEP com ou sem hífen (ex: `01001000` ou `01001-000`)
+- `cep` (string, obrigatório) - CEP com ou sem hífen (ex: `01001000` ou `01001-000`)
 
 **Exemplo de Requisição:**
 ```bash
-curl "http://localhost:8000/?zipcode=01001000"
+curl "http://localhost:8000/?cep=01001000"
 ```
 
 **Resposta de Sucesso (200):**
