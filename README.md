@@ -1,6 +1,6 @@
 # Weather API - Go + Cloud Run
 
-[![Tests](https://github.com/adalbertofjr/lab-1-go-weather-cloud-run/actions/workflows/test.yml/badge.svg)](https://github.com/adalbertofjr/lab-1-go-weather-cloud-run/actions/workflows/test.yml)
+[![Tests](https://github.com/adalbertofjr/lab-1-go-weather-cloud-run/actions/workflows/go-weather-cloud-run-tests.yml/badge.svg)](https://github.com/adalbertofjr/lab-1-go-weather-cloud-run/actions/workflows/go-weather-cloud-run-tests.yml)
 [![Go Version](https://img.shields.io/badge/Go-1.23-00ADD8?logo=go)](https://go.dev/)
 [![Coverage](https://img.shields.io/badge/coverage-90%25-brightgreen)](./coverage)
 
@@ -288,7 +288,7 @@ curl "http://localhost:8000/?zipcode=01001000"
 
 O projeto usa **GitHub Actions** para executar testes automaticamente em cada push/PR.
 
-### Workflow: `.github/workflows/test.yml`
+### Workflow: `.github/workflows/go-weather-cloud-run-tests.yml`
 
 ```yaml
 name: Go Weather Cloud Run - Tests
