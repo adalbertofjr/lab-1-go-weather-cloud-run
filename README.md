@@ -23,6 +23,23 @@ API REST em Go para consulta de temperatura por CEP, integrando ViaCEP e Weather
 
 ## 1. ⚡ Quick Start
 
+### 🌐 Usar API em Produção (Google Cloud Run)
+
+A API já está deployada e disponível para uso imediato:
+
+```bash
+# Testar CEP válido
+curl "https://lab-1-go-weather-cloud-run-1080779949140.us-central1.run.app/?cep=01001000"
+
+# Resposta esperada:
+# {"localidade":"Sao Paulo","temp_c":20.2,"temp_f":68.36,"temp_k":293.2}
+
+# Health check
+curl "https://lab-1-go-weather-cloud-run-1080779949140.us-central1.run.app/health"
+```
+
+### 💻 Executar Localmente
+
 ```bash
 # 1. Clonar repositório
 git clone https://github.com/adalbertofjr/lab-1-go-weather-cloud-run.git
