@@ -15,6 +15,10 @@ func LoadConfig(path string) (*Conf, error) {
 	viper.SetConfigFile(".env")
 	viper.AutomaticEnv()
 
+	// Bind explicitamente as variáveis de ambiente
+	viper.BindEnv("WEATHERAPI_KEY")
+	viper.BindEnv("WEB_SERVER_PORT")
+
 	// Tenta ler .env, mas ignora se não existir
 	_ = viper.ReadInConfig()
 
