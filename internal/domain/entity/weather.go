@@ -1,16 +1,16 @@
 package entity
 
 type Weather struct {
-	Location string
-	Temp_c   float64
-	Temp_f   float64
-	Temp_k   float64
+	City   string
+	Temp_c float64
+	Temp_f float64
+	Temp_k float64
 }
 
-func NewWeather(location string, tempC float64) *Weather {
+func NewWeather(city string, tempC float64) *Weather {
 	weather := Weather{
-		Location: location,
-		Temp_c:   tempC,
+		City:   city,
+		Temp_c: tempC,
 	}
 	weather.calcFahrenheit()
 	weather.calcKelvin()

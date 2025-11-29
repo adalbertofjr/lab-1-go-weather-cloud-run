@@ -5,8 +5,8 @@ import "testing"
 func TestNewWeather_PositiveTemperature(t *testing.T) {
 	weather := NewWeather("São Paulo", 25.0)
 
-	if weather.Location != "São Paulo" {
-		t.Errorf("Expected location 'São Paulo', got '%s'", weather.Location)
+	if weather.City != "São Paulo" {
+		t.Errorf("Expected city 'São Paulo', got '%s'", weather.City)
 	}
 	if weather.Temp_c != 25.0 {
 		t.Errorf("Expected temp_c 25.0, got %.1f", weather.Temp_c)
@@ -164,10 +164,10 @@ func TestNewWeather_LocationPreserved(t *testing.T) {
 		"São José dos Campos",
 	}
 
-	for _, location := range locations {
-		weather := NewWeather(location, 20.0)
-		if weather.Location != location {
-			t.Errorf("Expected location '%s', got '%s'", location, weather.Location)
+	for _, city := range locations {
+		weather := NewWeather(city, 20.0)
+		if weather.City != city {
+			t.Errorf("Expected city '%s', got '%s'", city, weather.City)
 		}
 	}
 }

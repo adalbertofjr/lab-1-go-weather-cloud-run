@@ -31,7 +31,7 @@ func (h *WeatherHandler) GetWeather(w http.ResponseWriter, r *http.Request) {
 	}
 
 	weatherDTO := dto.NewWeatherDTO(
-		weatherCurrent.Location,
+		weatherCurrent.City,
 		weatherCurrent.Temp_c,
 		weatherCurrent.Temp_f,
 		weatherCurrent.Temp_k,

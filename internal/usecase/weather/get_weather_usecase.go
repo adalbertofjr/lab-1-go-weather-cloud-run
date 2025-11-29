@@ -28,7 +28,7 @@ func (w *WeatherUseCase) GetCurrentWeather(cep string) (*entity.Weather, *intern
 	}
 
 	currentWeather := entity.NewWeather(
-		weatherData.Location,
+		weatherData.City,
 		weatherData.Temp_c)
 
 	return currentWeather, nil

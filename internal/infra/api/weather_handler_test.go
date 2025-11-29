@@ -46,8 +46,8 @@ func TestGetWeather_Success(t *testing.T) {
 		t.Fatalf("Failed to unmarshal response: %v", err)
 	}
 
-	if response["localidade"] != "São Paulo" {
-		t.Errorf("Expected localidade 'São Paulo', got '%v'", response["localidade"])
+	if response["city"] != "São Paulo" {
+		t.Errorf("Expected city 'São Paulo', got '%v'", response["city"])
 	}
 	if response["temp_c"] != 25.5 {
 		t.Errorf("Expected temp_c 25.5, got %v", response["temp_c"])
@@ -148,7 +148,7 @@ func TestGetWeather_JSONStructure(t *testing.T) {
 		t.Fatalf("Response is not valid JSON: %v", err)
 	}
 
-	requiredFields := []string{"localidade", "temp_c", "temp_f", "temp_k"}
+	requiredFields := []string{"city", "temp_c", "temp_f", "temp_k"}
 	for _, field := range requiredFields {
 		if _, exists := response[field]; !exists {
 			t.Errorf("Response missing required field: %s", field)
@@ -162,11 +162,11 @@ func TestGetWeather_JSONStructure(t *testing.T) {
 
 func TestGetWeather_DifferentTemperatures(t *testing.T) {
 	testCases := []struct {
-		name     string
-		location string
-		tempC    float64
-		tempF    float64
-		tempK    float64
+		name  string
+		city  string
+		tempC float64
+		tempF float64
+		tempK float64
 	}{
 		{"Zero Celsius", "Polo Sul", 0.0, 32.0, 273.0},
 		{"Negative Temperature", "Sibéria", -40.0, -40.0, 233.0},
@@ -178,7 +178,7 @@ func TestGetWeather_DifferentTemperatures(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			mockUseCase := &MockWeatherUseCase{
 				mockGetCurrentWeather: func(cep string) (*entity.Weather, *internalerror.InternalError) {
-					return entity.NewWeather(tc.location, tc.tempC), nil
+					return entity.NewWeather(tc.city, tc.tempC), nil
 				},
 			}
 			handler := NewWeatherHandler(mockUseCase)
@@ -195,8 +195,8 @@ func TestGetWeather_DifferentTemperatures(t *testing.T) {
 			var response map[string]interface{}
 			json.Unmarshal(w.Body.Bytes(), &response)
 
-			if response["localidade"] != tc.location {
-				t.Errorf("Expected localidade '%s', got '%v'", tc.location, response["localidade"])
+			if response["city"] != tc.city {
+				t.Errorf("Expected city '%s', got '%v'", tc.city, response["city"])
 			}
 			if response["temp_c"] != tc.tempC {
 				t.Errorf("Expected temp_c %.1f, got %v", tc.tempC, response["temp_c"])

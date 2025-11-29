@@ -35,8 +35,8 @@ func TestGetCurrentWeather_Success(t *testing.T) {
 	if result == nil {
 		t.Fatal("Expected result, got nil")
 	}
-	if result.Location != "São Paulo" {
-		t.Errorf("Expected location 'São Paulo', got '%s'", result.Location)
+	if result.City != "São Paulo" {
+		t.Errorf("Expected location 'São Paulo', got '%s'", result.City)
 	}
 	if result.Temp_c != 25.5 {
 		t.Errorf("Expected temp_c 25.5, got %.1f", result.Temp_c)
@@ -92,8 +92,8 @@ func TestGetCurrentWeather_CEPWithDash(t *testing.T) {
 	if err != nil {
 		t.Errorf("Expected no error, got %v", err)
 	}
-	if result != nil && result.Location != "São Paulo" {
-		t.Errorf("Expected location 'São Paulo', got '%s'", result.Location)
+	if result != nil && result.City != "São Paulo" {
+		t.Errorf("Expected location 'São Paulo', got '%s'", result.City)
 	}
 }
 

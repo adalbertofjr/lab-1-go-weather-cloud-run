@@ -15,7 +15,7 @@ type WeatherAPI struct {
 }
 
 type ViaCEPResponse struct {
-	Location string `json:"localidade"`
+	Localidade string `json:"localidade"`
 }
 
 type WeatherAPIResponse struct {
@@ -70,7 +70,7 @@ func (w *WeatherAPI) GetCurrentWeather(cep string) (*entity.Weather, error) {
 		return nil, err
 	}
 
-	url := fmt.Sprintf("https://api.weatherapi.com/v1/current.json?key=%s&q=%s&aqi=no", w.APIKey, url.QueryEscape(location.Location))
+	url := fmt.Sprintf("https://api.weatherapi.com/v1/current.json?key=%s&q=%s&aqi=no", w.APIKey, url.QueryEscape(location.Localidade))
 	client := http.Client{}
 	resp, err := client.Get(url)
 	if err != nil {

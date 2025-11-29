@@ -11,8 +11,8 @@ func TestNewWeatherDTO(t *testing.T) {
 	if dto == nil {
 		t.Fatal("Expected non-nil DTO, got nil")
 	}
-	if dto.Location != "São Paulo" {
-		t.Errorf("Expected location 'São Paulo', got '%s'", dto.Location)
+	if dto.City != "São Paulo" {
+		t.Errorf("Expected city 'São Paulo', got '%s'", dto.City)
 	}
 	if dto.Temp_c != 25.0 {
 		t.Errorf("Expected temp_c 25.0, got %.1f", dto.Temp_c)
@@ -33,14 +33,14 @@ func TestWeatherDTO_JSONMarshaling(t *testing.T) {
 		t.Fatalf("Failed to marshal DTO: %v", err)
 	}
 
-	expectedJSON := `{"localidade":"Rio de Janeiro","temp_c":30.5,"temp_f":86.9,"temp_k":303.5}`
+	expectedJSON := `{"city":"Rio de Janeiro","temp_c":30.5,"temp_f":86.9,"temp_k":303.5}`
 	if string(jsonData) != expectedJSON {
 		t.Errorf("Expected JSON %s, got %s", expectedJSON, string(jsonData))
 	}
 }
 
 func TestWeatherDTO_JSONUnmarshaling(t *testing.T) {
-	jsonData := `{"localidade":"Curitiba","temp_c":15.0,"temp_f":59.0,"temp_k":288.0}`
+	jsonData := `{"city":"Curitiba","temp_c":15.0,"temp_f":59.0,"temp_k":288.0}`
 
 	var dto WeatherDTO
 	err := json.Unmarshal([]byte(jsonData), &dto)
@@ -48,8 +48,8 @@ func TestWeatherDTO_JSONUnmarshaling(t *testing.T) {
 		t.Fatalf("Failed to unmarshal JSON: %v", err)
 	}
 
-	if dto.Location != "Curitiba" {
-		t.Errorf("Expected location 'Curitiba', got '%s'", dto.Location)
+	if dto.City != "Curitiba" {
+		t.Errorf("Expected city 'Curitiba', got '%s'", dto.City)
 	}
 	if dto.Temp_c != 15.0 {
 		t.Errorf("Expected temp_c 15.0, got %.1f", dto.Temp_c)
@@ -69,7 +69,7 @@ func TestWeatherDTO_JSONFieldNames(t *testing.T) {
 	var rawJSON map[string]interface{}
 	json.Unmarshal(jsonData, &rawJSON)
 
-	expectedFields := []string{"localidade", "temp_c", "temp_f", "temp_k"}
+	expectedFields := []string{"city", "temp_c", "temp_f", "temp_k"}
 	for _, field := range expectedFields {
 		if _, exists := rawJSON[field]; !exists {
 			t.Errorf("Expected JSON field '%s' not found", field)
@@ -100,8 +100,8 @@ func TestWeatherDTO_DifferentValues(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			dto := NewWeatherDTO(tc.location, tc.tempC, tc.tempF, tc.tempK)
 
-			if dto.Location != tc.location {
-				t.Errorf("Expected location '%s', got '%s'", tc.location, dto.Location)
+			if dto.City != tc.location {
+				t.Errorf("Expected location '%s', got '%s'", tc.location, dto.City)
 			}
 			if dto.Temp_c != tc.tempC {
 				t.Errorf("Expected temp_c %.1f, got %.1f", tc.tempC, dto.Temp_c)
@@ -130,8 +130,8 @@ func TestWeatherDTO_JSONRoundTrip(t *testing.T) {
 		t.Fatalf("Unmarshal failed: %v", err)
 	}
 
-	if unmarshaled.Location != original.Location {
-		t.Errorf("Location changed after round trip")
+	if unmarshaled.City != original.City {
+		t.Errorf("City changed after round trip")
 	}
 	if unmarshaled.Temp_c != original.Temp_c {
 		t.Errorf("Temp_c changed after round trip")
